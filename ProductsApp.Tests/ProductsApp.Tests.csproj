@@ -56,10 +56,13 @@
       <Project>{831E2097-E603-4050-B589-E6872B74B789}</Project>
       <Name>ProductsApp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ProductsCommon\ProductsCommon.csproj">
+    <ProjectReference Include="..\ProductsCommon\Common.csproj">
       <Project>{A58AA4AA-3B2A-4FD8-983F-A6226FBC7833}</Project>
-      <Name>ProductsCommon</Name>
+      <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

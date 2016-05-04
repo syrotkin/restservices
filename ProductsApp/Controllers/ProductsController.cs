@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 
-using ProductsApp.Models;
+using Common.Model;
 
 namespace ProductsApp.Controllers {
     public class ProductsController : ApiController {
@@ -19,6 +19,7 @@ namespace ProductsApp.Controllers {
             return m_products;
         }
 
+        // Mapped to /api/products/id
         public IHttpActionResult GetProduct(int id) {
             var product = m_products.FirstOrDefault(p => p.Id == id);
             if (product == null) {
@@ -44,6 +45,7 @@ namespace ProductsApp.Controllers {
             return Ok(product);
         }
 
+        // matches /api/products?name=xxx&price=yyy
         // Both parameters name and price have to be present. The order does not matter.
         // If only name is present, the GetByName method is called
         // If only price is present, there is no matching method yet, so GetAllProducts is called.

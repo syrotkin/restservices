@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 
-using ProductsCommon;
-using ProductsCommon.Models;
+using Common;
+using Common.Model;
 
 namespace ProductsApp.Controllers
 {

@@ -4,9 +4,9 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 
-using ProductsCommon.Models;
+using Common.Model;
 
-namespace ProductsCommon {
+namespace Common {
     // TODO-osy: Entity Framework
 
     public class MovieBusiness {

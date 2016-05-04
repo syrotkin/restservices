@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductsCommon.Models {
+namespace Common.Model {
     public class Movie {
         public int Id {
             get;

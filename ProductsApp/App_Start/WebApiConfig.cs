@@ -19,6 +19,12 @@ namespace ProductsApp
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "ActionApi",
+                routeTemplate: "api/{controller}/{action}");
+
+
             // you can add more routes here if you don't want to use the query string
 
             

@@ -12,41 +12,49 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
-using ProductsApp.Models;
+using Common.Model;
 
 namespace ProductApiClient {
-    class ProductApiClientProgram {
+    class RestApiClientProgram {
         static void Main(string[] args) {
 
-            CallApiMethods();
-
-
+           CallApiMethods();
+            
             Console.WriteLine("Done...");
             Console.ReadKey();
         }
 
-        private static async void CallApiMethods() {
-            const string baseUrl = "http://localhost:38223/";
+        private static async void CallStoredProcedures()
+        {
 
-            using (var httpClient = new HttpClient()) {
+        }
+
+        private static async void CallApiMethods() {
+            // TODO-osy: make it a config value
+            const string baseUrl = "http://localhost:38223/";
+            const string apiUrl = "api/products/";
+            int productId = 5;
+
+            using (var httpClient = new HttpClient())
+            {
                 httpClient.BaseAddress = new Uri(baseUrl);
                 httpClient.Timeout = new TimeSpan(0, 10, 0); // 10 minutes
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                const string productUrl = "api/products/";
-                var productList = await RetrieveAllProducts(httpClient, productUrl);
+                
+                var productList = await RetrieveAllProducts(httpClient, apiUrl);
 
-                int id = 5;
-                var product = await RetrieveProductById(httpClient, productUrl, 2);
-                if (product == null) {
-                    Console.WriteLine("No product with Id = " + id);
-                } else {
+                
+                var product = await RetrieveProductById(httpClient, apiUrl, productId);
+                if (product == null)
+                {
+                    Console.WriteLine("No product with Id = " + productId);
+                }
+                else
+                {
                     Console.WriteLine("Retrieved product " + product.Name + ", price: " + product.Price);
                 }
-
-
             }
-
         }
 
         private static async Task<Product> RetrieveProductById(HttpClient httpClient,

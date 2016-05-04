@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{95D67473-C94E-4F08-83BB-F7B8BC792EDD}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{A58AA4AA-3B2A-4FD8-983F-A6226FBC7833}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProductApiClient</RootNamespace>
-    <AssemblyName>ProductApiClient</AssemblyName>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -37,9 +34,12 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SimpleImpersonation, Version=1.1.0.34390, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleImpersonation.1.1.0\lib\net40-Client\SimpleImpersonation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,18 +47,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProductApiClientProgram.cs" />
+    <Compile Include="Model\Contact.cs" />
+    <Compile Include="RctAdvanceBusiness.cs" />
+    <Compile Include="OldImpersonation.cs" />
+    <Compile Include="Model\Movie.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="MovieBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <Content Include="Scripts\Create_Movies.sql" />
+    <Content Include="Scripts\sp_getMovie.sql" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProductsCommon\ProductsCommon.csproj">
-      <Project>{a58aa4aa-3b2a-4fd8-983f-a6226fbc7833}</Project>
-      <Name>ProductsCommon</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
