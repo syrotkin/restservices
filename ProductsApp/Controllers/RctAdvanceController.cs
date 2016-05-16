@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace ProductsApp.Controllers
 {
+    //[Authorize]
     public class RctAdvanceController : ApiController
     {
         // Also see WebApiConfig for Routing -- specifying "ActionApi"

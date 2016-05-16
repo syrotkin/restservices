@@ -14,37 +14,76 @@ using Newtonsoft.Json;
 
 using Common.Model;
 
-namespace ProductApiClient {
-    class RestApiClientProgram {
-        static void Main(string[] args) {
+namespace ProductApiClient
+{
+    class RestApiClientProgram
+    {
+        static void Main(string[] args)
+        {
+             CallApiMethods();
+            //Task<IEnumerable<Contact>> task = CallStoredProcedures();
+            //var contacts = task.Result;
 
-           CallApiMethods();
-            
+
             Console.WriteLine("Done...");
             Console.ReadKey();
         }
 
-        private static async void CallStoredProcedures()
+        private static IEnumerable<Contact> CallStoredProcedures()
         {
+            const string accountId = "027123T183703777";
+            const string baseUrl = "http://localhost:38223/api/rctadvance/";
+            string storedProcedureName = string.Format("findaccountcontacts?accountId={0}", accountId);
 
+            // This is used for Windows authentication
+            var httpHandler = new HttpClientHandler
+            {
+                UseDefaultCredentials = true
+            };
+            using (var httpClient = new HttpClient(httpHandler))
+            {
+                httpClient.BaseAddress = new Uri(baseUrl);
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var emptyResult = new List<Contact>();
+                using (var request = new HttpRequestMessage(HttpMethod.Get, storedProcedureName))
+                {
+                    httpClient.SendAsync(request).ContinueWith(sendTask =>
+                    {
+                        var response = sendTask.Result;
+                        response.EnsureSuccessStatusCode();
+                        response.Content.ReadAsStringAsync().ContinueWith(readTask =>
+                        {
+                            var content = readTask.Result;
+                            var contacts = JsonConvert.DeserializeObject<IEnumerable<Contact>>(content);
+                            return contacts;
+                        });
+                        return emptyResult;
+                    });
+                }
+                return emptyResult;
+            }
         }
 
-        private static async void CallApiMethods() {
+        private static async void CallApiMethods()
+        {
             // TODO-osy: make it a config value
-            const string baseUrl = "http://localhost:38223/";
+            //const string baseUrl = "http://localhost:38223/";
+            const string baseUrl = "http://localhost/publishedapplications/";
             const string apiUrl = "api/products/";
             int productId = 5;
 
-            using (var httpClient = new HttpClient())
+            var httpHandler = new HttpClientHandler
+            {
+                UseDefaultCredentials = true
+            };
+            using (var httpClient = new HttpClient(httpHandler))
             {
                 httpClient.BaseAddress = new Uri(baseUrl);
                 httpClient.Timeout = new TimeSpan(0, 10, 0); // 10 minutes
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                
                 var productList = await RetrieveAllProducts(httpClient, apiUrl);
 
-                
                 var product = await RetrieveProductById(httpClient, apiUrl, productId);
                 if (product == null)
                 {
@@ -59,7 +98,8 @@ namespace ProductApiClient {
 
         private static async Task<Product> RetrieveProductById(HttpClient httpClient,
                 string productUrl,
-                int id) {
+                int id)
+        {
             var request = new HttpRequestMessage(HttpMethod.Get, productUrl + id);
             HttpResponseMessage response = await httpClient.SendAsync(request);
             var content = await response.Content.ReadAsStringAsync();
@@ -69,16 +109,21 @@ namespace ProductApiClient {
 
         private static async Task<List<Product>> RetrieveAllProducts(
                 HttpClient httpClient,
-                string allProductsUrl) {
-            var request = new HttpRequestMessage(HttpMethod.Get, allProductsUrl);
-            // if sending a POST request, specify the content
-            //request.Content = new StringContent();
-            //request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                string allProductsUrl)
+        {
+            using (var request = new HttpRequestMessage(HttpMethod.Get, allProductsUrl))
+            {
+                // if sending a POST request, specify the content
+                //request.Content = new StringContent();
+                //request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                using (HttpResponseMessage response = await httpClient.SendAsync(request))
+                {
+                    var content = await response.Content.ReadAsStringAsync();
 
-            HttpResponseMessage response = await httpClient.SendAsync(request);
-            var content = await response.Content.ReadAsStringAsync();
-            var productList = JsonConvert.DeserializeObject<List<Product>>(content);
-            return productList;
+                    var productList = JsonConvert.DeserializeObject<List<Product>>(content);
+                    return productList;
+                }
+            }
         }
 
     }
