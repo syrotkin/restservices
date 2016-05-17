@@ -15,10 +15,15 @@ namespace ProductsApp.Controllers {
 
         // This is mapped to /api/products
         [HttpGet]
+        // Authorization example
+        //[Authorize(Users = "ezcorp\\oleksiy.syrotkin")]
         public IEnumerable<Product> GetAllProducts() {
             return m_products;
         }
 
+        [HttpGet]
+        // Authorization example
+        //[Authorize(Users = "ezcorp\\owusu.akoto")]
         // Mapped to /api/products/id
         public IHttpActionResult GetProduct(int id) {
             var product = m_products.FirstOrDefault(p => p.Id == id);
