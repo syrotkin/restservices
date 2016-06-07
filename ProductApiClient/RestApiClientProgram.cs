@@ -44,7 +44,6 @@ namespace ProductApiClient
             {
                 httpClient.BaseAddress = new Uri(baseUrl);
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var emptyResult = new List<Contact>();
                 using (var request = new HttpRequestMessage(HttpMethod.Get, storedProcedureName))
                 {
                     httpClient.SendAsync(request).ContinueWith(sendTask =>
@@ -57,10 +56,10 @@ namespace ProductApiClient
                             var contacts = JsonConvert.DeserializeObject<IEnumerable<Contact>>(content);
                             return contacts;
                         });
-                        return emptyResult;
+                        return Enumerable.Empty<Contact>();
                     });
                 }
-                return emptyResult;
+                return Enumerable.Empty<Contact>();
             }
         }
 

@@ -11,7 +11,6 @@ namespace ProductsApp.Tests {
         public void TestMovieBusiness() {
             var movieBusiness = new MovieBusiness();
             var movies = movieBusiness.ListMoviesByNameAndGenre(null, null);
-
         }
         
         [TestMethod]
